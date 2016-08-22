@@ -1,0 +1,27 @@
+# The objective of this is to take the polygons created from Curtis Price tools for the TX gage basins
+# and modify them so they only include the gage from its pour point to the next gage basin(s) up the 
+# line.
+
+import arcpy
+
+workspace = arcpy.env.workspace = r'D:\GIS\Texas\staged.gdb'
+bpoly = r'D:\GIS\Texas\staged.gdb\bpoly'
+spatial_ref = jlkdsajlkdsadsa'
+
+SiteNumList = [row[0] for row in arcpy.da.SearchCursor(bpoly, 'SiteNumber')]
+bpol_lyr = arcpy.MakeFeatureLayer_management(bpoly, 'bpoly_lyr')
+
+def SiteClip (SiteNum, lyr):
+    sc = arcpy.da.SearchCursor(lyr)
+    expression = "SiteNumber" + "='" + SiteNum + "'"
+    arcpy.SelectLayerByAttribute_management(lyr, "NEW_SELECTION", expression)
+    CopyHold = arcpy.CopyFeatures_management(lyr, "Poly_Out")
+    arcpy.CreateFeatureclass_management(env.workspace, SNComp, "POLYGON", CopyHold, spatial_reference=spatial_ref)
+    arcpy.Append_management(CopyHold, SNComp, "NO_TEST", "", "")
+    SNComp = 'SNcomp'
+    arcpy.SelectLayerByLocation_management(lyr, 'HAVE_THEIR_CENTROID_IN', SNComp)
+    arcpy.SelectLayerByAttribute_management(lyr, "REMOVE_FROM_SELECTION", expression)
+    ClipHold = arcpy.CopyFeatures_management(lyr, "Poly_Out")
+    arcpy.CreateFeatureclass_management(env.workspace, SNClip, "POLYGON", ClipHold, spatial_reference=spatial_ref)
+    arcpy.Append_management(ClipHold, SNClip, "NO_TEST", "", ""
+    arcpy.Erase_analysis(SNComp, 'SNClip', SNFinal)
