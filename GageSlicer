@@ -23,5 +23,5 @@ def SiteClip (SiteNum, lyr):
     arcpy.SelectLayerByAttribute_management(lyr, "REMOVE_FROM_SELECTION", expression)
     ClipHold = arcpy.CopyFeatures_management(lyr, "Poly_Out")
     arcpy.CreateFeatureclass_management(env.workspace, SNClip, "POLYGON", ClipHold, spatial_reference=spatial_ref)
-    arcpy.Append_management(ClipHold, SNClip, "NO_TEST", "", ""
+    arcpy.Append_management(ClipHold, SNClip, "NO_TEST", "", "")
     arcpy.Erase_analysis(SNComp, 'SNClip', SNFinal)
